@@ -15,6 +15,16 @@ Race condition is a kind of a bug that occurs in multithreaded applications.
 When two or more threads perform a set of operations in parallel, that access the same memory location.  Also, one or more thread out of them 
 modifies the data in that memory location, then this can lead to an unexpected results some times.
 	
+	
+	How to fix Race Conditions?
+To fix this problem we need to use Lock mechanism i.e. each thread need to acquire a lock before modifying or reading the shared data and
+	after modifying the data each thread should unlock the Lock.
+	
+	
+	But what if we forgot to unlock the mutex at the end of function. In such scenario, one thread will exit without releasing the lock and 
+	other threads will remain in waiting.This kind of scenario can happen in case some exception came after locking the mutex. To avoid such 
+	scenarios we should use std::lock_guard.
+	
 
 MUTEX:
 0. Mutex is used to avoid race condition.
