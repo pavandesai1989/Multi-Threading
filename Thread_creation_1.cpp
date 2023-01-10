@@ -32,6 +32,8 @@ std::thread thObj(<CALLBACK>);
 
 */
 
+1. Function pointer 
+
 #include<thread>
 #include<chrono>
 
@@ -49,8 +51,78 @@ int main()
 
 	thread t2(work);
 
-	t1.join(); //works fine
+	t1.join(); //works fine. //in case of multiple threads does not gurantee which thread created 1st 
 	t2.join();
 
 	return 0; 
 }
+
+
+
+2. Lambda function
+	    auto fun = [](int x){while(x-->0) cout<<x<<endl;};
+
+	    thread t1(fun,4);
+	    t1.join();
+
+	//using lambda as below 
+	    thread t1([](int x){while(x-- > 0) cout<<x<<endl;},10);
+	    t1.join();
+
+
+3. Functiors (function object ) //class with the overloaded () 
+	class base
+	{
+	    public:
+	      void operator()(int x)
+	      {
+		  while(x-- > 0)
+		     cout<<x<<endl;
+	      }
+	};
+
+
+	int main()
+	{
+	    thread t1(base(),7);
+	    t1.join();
+	}
+
+4. Non static member function 
+	class base
+	{
+	    public:
+	      void run(int x)
+	      {
+		  while(x-- > 0)
+		     cout<<x<<endl;
+	      }
+	};
+
+
+	int main()
+	{
+	    base b;
+	    thread t(&base::run,&b,14);
+	    t.join();
+	}
+
+5.static member function   //same as above . No need of object as it is static fun. We pass only address of the fun
+	class base
+	{
+	    public:
+	      static void run(int x)
+	      {
+		  while(x-- > 0)
+		     cout<<x<<endl;
+	      }
+	};
+
+
+	int main()
+	{
+	    thread t(&base::run,4);
+	    t.join();
+	}
+
+    
