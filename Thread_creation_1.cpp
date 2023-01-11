@@ -125,4 +125,12 @@ int main()
 	    t.join();
 	}
 
+
+********PAssing Arg to thread***
+How not to pass arguments to threads in C++11
+Don’t pass addresses of variables from local stack to thread’s callback function. Because it might be possible that local variable in Thread 1 goes out of scope but Thread 2 is still trying to access it through it’s address.
+In such scenario accessing invalid address can cause unexpected behaviour.
+	
+	
+
     
